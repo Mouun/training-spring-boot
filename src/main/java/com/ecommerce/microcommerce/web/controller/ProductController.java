@@ -31,12 +31,12 @@ public class ProductController {
     @ApiOperation(value = "Calculer les marges pour tous les produits")
     @GetMapping(value = "AdminProduits")
     public List<ProductWithMargin> calculerMargeProduit() {
-        List<ProductWithMargin> productWithMarginRespons = new ArrayList<>();
+        List<ProductWithMargin> productWithMarginResponse = new ArrayList<>();
         Iterable<Product> produits = productDao.findAll();
         produits.forEach(product -> {
-            productWithMarginRespons.add(new ProductWithMargin(product));
+            productWithMarginResponse.add(new ProductWithMargin(product));
         });
-        return productWithMarginRespons;
+        return productWithMarginResponse;
     }
 
     //Récupérer la liste des produits
