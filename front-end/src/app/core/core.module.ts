@@ -6,6 +6,9 @@ import { SharedModule } from '../shared/shared.module';
 import { HomeComponent } from '../home/home.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { ProfileComponent } from '../profile/profile.component';
+import { LoadingBarModule } from '@ngx-loading-bar/core';
+import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
+import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 
 export const routes: Routes = [
   {
@@ -39,7 +42,10 @@ export const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forRoot(routes),
-    SharedModule
+    SharedModule,
+    LoadingBarModule,
+    LoadingBarRouterModule,
+    LoadingBarHttpClientModule
   ],
   bootstrap: [CoreComponent]
 })
