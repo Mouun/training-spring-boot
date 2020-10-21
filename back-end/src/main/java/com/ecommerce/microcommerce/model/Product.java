@@ -7,6 +7,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.Min;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
+
 @Entity
 //@JsonFilter("monFiltreDynamique")
 public class Product {

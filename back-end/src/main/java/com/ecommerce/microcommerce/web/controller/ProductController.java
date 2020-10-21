@@ -5,6 +5,7 @@ import com.ecommerce.microcommerce.model.Product;
 import com.ecommerce.microcommerce.responses.ProductWithMargin;
 import com.ecommerce.microcommerce.web.exceptions.ProduitGratuitException;
 import com.ecommerce.microcommerce.web.exceptions.ProduitIntrouvableException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
@@ -44,7 +45,8 @@ public class ProductController {
     @RequestMapping(value = "/Produits", method = RequestMethod.GET)
     public MappingJacksonValue listeProduits() {
 
-        Iterable<Product> produits = productDao.findAll();
+        Iterable<Product> produits = productDao.findAllByOrderByNomAsc();
+
 
         SimpleBeanPropertyFilter monFiltre = SimpleBeanPropertyFilter.serializeAllExcept("prixAchat");
 
