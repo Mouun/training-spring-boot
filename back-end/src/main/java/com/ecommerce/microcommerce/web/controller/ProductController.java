@@ -48,6 +48,7 @@ public class ProductController {
         Iterable<Product> produits = productDao.findAll();
 
 
+
         SimpleBeanPropertyFilter monFiltre = SimpleBeanPropertyFilter.serializeAllExcept("prixAchat");
 
         FilterProvider listDeNosFiltres = new SimpleFilterProvider().addFilter("monFiltreDynamique", monFiltre);
