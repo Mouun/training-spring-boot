@@ -12,6 +12,7 @@ export class CustomButtonComponent implements OnInit {
   @Input() public disabled: boolean;
   @Input() public size: number;
   @Input() public secondary = false;
+  @Input() public fullWidth = false;
   @Output() public whenClicked: EventEmitter<void> = new EventEmitter();
 
   constructor() { }

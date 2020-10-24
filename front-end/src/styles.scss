@@ -1,3 +1,80 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+
+/* Modals style */
+.no-padding-modal {
+  padding: 0 !important;
+}
+
+.small-padding-modal {
+  padding: 24px !important;
+  display: flex !important;
+}
+
+/* Modal backdrop entrance animation */
+.modal-backdrop-entrance {
+  animation: modalBackdropEntrance ease-out 0.3s;
+  transform-origin: 50% 50%;
+}
+
+@keyframes modalBackdropEntrance {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Modal backdrop leave animation */
+.modal-backdrop-leave {
+  animation: modalBackdropLeave ease-in 0.2s;
+  transform-origin: 50% 50%;
+}
+
+@keyframes modalBackdropLeave {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+
+/* Modal entrance animation */
+.modal-entrance {
+  animation: modalEntrance ease-out 0.3s;
+  animation-iteration-count: 1;
+  transform-origin: 50% 50%;
+}
+
+@keyframes modalEntrance {
+  0% {
+    opacity: 0;
+    transform: scaleX(0.95) scaleY(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scaleX(1.00) scaleY(1.00);
+  }
+}
+
+/* Modal leave animation */
+.modal-leave {
+  animation: modalLeave ease-in 0.2s;
+  animation-iteration-count: 1;
+  transform-origin: 50% 50%;
+}
+
+@keyframes modalLeave {
+  0% {
+    opacity: 1;
+    transform: scaleX(1.00) scaleY(1.00);
+  }
+  100% {
+    opacity: 0;
+    transform: scaleX(0.95) scaleY(0.95);
+  }
+}

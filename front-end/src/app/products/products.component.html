@@ -1,20 +1,191 @@
 <div>
   <p class="mb-4">products works!</p>
-  <form [formGroup]="formGroup" class="mb-4">
-    <app-custom-input
-      inputLabel="Email"
-      inputPlaceholder="you@example.com"
-      controlName="input"
-    >
-    </app-custom-input>
-  </form>
-  <div class="flex flex-row justify-end">
-    <app-custom-button class="mr-4" text="Button text" (whenClicked)="onButtonClicked()">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-      </svg>
-    </app-custom-button>
-    <app-custom-button text="Button text" [secondary]="true"></app-custom-button>
+  <div class="flex flex-col">
+    <div class="-my-2 sm:-mx-6 lg:-mx-8">
+      <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+        <div class="shadow border-b border-gray-200 sm:rounded-lg mb-5">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead>
+            <tr>
+              <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                Nom
+              </th>
+              <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                Prix
+              </th>
+              <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                Prix d'Achat
+              </th>
+              <th class="px-6 py-3 bg-gray-50"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Odd row -->
+            <tr class="bg-white">
+              <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
+                Jane Cooper
+              </td>
+              <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+                1200€
+              </td>
+              <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+                1000€
+              </td>
+              <td class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
+                <app-product-row-actions (whenEditClicked)="onEditClicked()" (whenDeleteClicked)="deleteSwal.fire()"></app-product-row-actions>
+              </td>
+            </tr>
+
+            <!-- Even row -->
+            <tr class="bg-gray-50">
+              <!--   <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
+                   Cody Fisher
+                 </td>
+                 <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+                   500€
+                 </td>
+                 <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+                   350€
+                 </td>
+                 <td class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
+                   <app-product-row-actions></app-product-row-actions>
+                 </td>
+               </tr>-->
+            </tbody>
+          </table>
+        </div>
+        <div class="flex justify-end">
+          <app-custom-button text="Ajouter" (whenClicked)="onAddClicked()"></app-custom-button>
+        </div>
+      </div>
+    </div>
   </div>
+
+  <swal
+    #addOrEditSwal
+    [showConfirmButton]="false"
+    [showCancelButton]="false"
+    [showCloseButton]="false"
+    [padding]="0"
+    [customClass]="{ content: 'small-padding-modal' }"
+    [showClass]="{ popup: 'modal-entrance', backdrop: 'modal-backdrop-entrance' }"
+    [hideClass]="{ popup: 'modal-leave', backdrop: 'modal-backdrop-leave' }"
+    backdrop="rgba(0, 0, 0, 0.5)"
+  >
+    <div *swalPortal>
+      <h2 class="mb-4">{{popupTitle}}</h2>
+      <form class="mb-8" [formGroup]="createOrUpdateProductForm">
+        <div class="flex flex-col">
+          <div class="mb-4">
+            <app-custom-input
+              controlName="nom"
+              inputLabel="Nom"
+              inputPlaceholder=""
+            >
+            </app-custom-input>
+          </div>
+          <div class="mb-4">
+            <app-custom-input
+              controlName="prix"
+              type="number"
+              inputLabel="Prix"
+              inputPlaceholder=""
+            >
+            </app-custom-input>
+          </div>
+          <div class="mb-4">
+            <app-custom-input
+              controlName="prixAchat"
+              type="number"
+              inputLabel="Prix d'achat"
+              inputPlaceholder=""
+            >
+            </app-custom-input>
+          </div>
+        </div>
+      </form>
+      <div class="flex w-full">
+        <app-custom-button
+          class="w-full"
+          text="Valider"
+          [fullWidth]="true"
+          [disabled]="createOrUpdateProductForm.invalid"
+          (whenClicked)="addMode ? addProduct() : editProduct()"
+        >
+        </app-custom-button>
+        <span class="w-6"></span>
+        <app-custom-button
+          class="w-full"
+          text="Annuler"
+          [secondary]="true"
+          [fullWidth]="true"
+          (whenClicked)="addOrEditSwal.dismiss()"
+        >
+        </app-custom-button>
+      </div>
+    </div>
+  </swal>
+
+  <swal
+    #deleteSwal
+    [showConfirmButton]="false"
+    [showCancelButton]="false"
+    [showCloseButton]="false"
+    [padding]="0"
+    [customClass]="{ content: 'no-padding-modal' }"
+    [showClass]="{ popup: 'modal-entrance', backdrop: 'modal-backdrop-entrance' }"
+    [hideClass]="{ popup: 'modal-leave', backdrop: 'modal-backdrop-leave' }"
+    backdrop="rgba(0, 0, 0, 0.5)"
+  >
+    <div *swalPortal>
+      <div class="bg-white rounded-lg px-4 pt-5 pb-4 text-left">
+        <div class="sm:flex sm:items-start">
+          <div
+            class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10"
+          >
+            <!-- Heroicon name: exclamation -->
+            <svg
+              class="h-6 w-6 text-red-600 m-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+              />
+            </svg>
+          </div>
+          <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">
+              Supprimer un produit
+            </h3>
+            <div class="mt-2">
+              <p class="text-sm leading-5 text-gray-500">
+                Êtes-vous sûr de vouloir supprimer ce produit ?
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
+        <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
+          <button
+            type="button"
+            class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-red-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-red-500 focus:outline-none focus:border-red-700 focus:shadow-outline-red transition ease-in-out duration-150 sm:text-sm sm:leading-5"
+            (click)="deleteProduct()"
+          >
+            Supprimer
+          </button>
+        </span>
+          <span class="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:w-auto">
+            <button
+              type="button"
+              class="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-base leading-6 font-medium text-gray-700 shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5"
+              (click)="deleteSwal.dismiss()"
+            >
+              Annuler
+            </button>
+        </span>
+        </div>
+      </div>
+    </div>
+  </swal>
 </div>
