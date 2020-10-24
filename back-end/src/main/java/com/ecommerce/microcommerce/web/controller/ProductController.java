@@ -100,7 +100,7 @@ public class ProductController {
         return productNotesDelegate.callNotesService(id);
     }
 
-    // 1jouter un produit
+    // Ajouter un produit
     @PostMapping("/Produits")
     public ResponseEntity<Void> ajouterProduit(@Valid @RequestBody Product product) throws ProduitGratuitException {
         if (product.getPrix() <= 0)
@@ -126,12 +126,11 @@ public class ProductController {
 
     @PutMapping("/Produits")
     public void updateProduit(@RequestBody Product product) {
-
         productDao.save(product);
     }
 
     // Pour les tests
-    @GetMapping("test/produits/{prix}")
+    @GetMapping("/Test/Produits/{prix}")
     public List<Product> testeDeRequetes(@PathVariable int prix) {
         return productDao.chercherUnProduitCher(400);
     }
