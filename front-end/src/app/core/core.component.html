@@ -1,0 +1,133 @@
+<ngx-loading-bar [includeSpinner]="false" color="#5A67D8" height="3px"></ngx-loading-bar>
+<div class="h-screen flex overflow-hidden bg-gray-100">
+  <!-- Mobile sidebar -->
+  <div *ngIf="sideMenuOpened" class="md:hidden" [@sideMenuParentDummyAnimation]>
+    <div class="fixed inset-0 flex z-40">
+      <div (click)="toggleSideMenu()" class="fixed inset-0" [@sideMenuOverlayAnimation]>
+        <div class="absolute inset-0 bg-gray-600 opacity-75"></div>
+      </div>
+      <div class="relative flex-1 flex flex-col max-w-xs w-full bg-indigo-600" [@sideMenuAnimation]>
+        <div class="absolute top-0 right-0 -mr-14 p-1">
+          <button (click)="toggleSideMenu()" class="flex items-center justify-center h-12 w-12 rounded-full focus:outline-none" aria-label="Close sidebar">
+            <svg class="h-6 w-6 text-white" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <div class="flex-1 h-0 pt-5 pb-4 overflow-y-auto">
+          <nav class="mt-5 px-2 space-y-1">
+            <button
+              (click)="navigate('/')"
+              class="w-full group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md text-indigo-300 hover:text-white hover:bg-indigo-700 focus:outline-none transition ease-in-out duration-150"
+              [ngClass]="{'text-white bg-indigo-800': currentRoute === '/', 'text-indigo-300': currentRoute !== '/'}"
+            >
+              <svg class="mr-4 h-6 w-6 text-indigo-400 group-hover:text-indigo-300 group-focus:text-indigo-300 transition ease-in-out duration-150" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+              </svg>
+              Home
+            </button>
+
+            <button
+              (click)="navigate('/products')"
+              class="w-full group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md text-indigo-300 hover:text-white hover:bg-indigo-700 focus:outline-none transition ease-in-out duration-150"
+              [ngClass]="{'text-white bg-indigo-800': currentRoute === '/products', 'text-indigo-300': currentRoute !== '/products'}"
+            >
+              <svg class="mr-4 h-6 w-6 text-indigo-400 group-hover:text-indigo-300 group-focus:text-indigo-300 transition ease-in-out duration-150" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+              </svg>
+              Products
+            </button>
+          </nav>
+        </div>
+        <div class="flex-shrink-0 flex border-t border-indigo-700 p-4">
+          <button (click)="navigate('/profile')" class="flex-shrink-0 group block focus:outline-none">
+            <div class="flex items-center">
+              <div>
+                <img class="inline-block h-10 w-10 rounded-full" src="https://randomuser.me/api/portraits/men/42.jpg" alt="">
+              </div>
+              <div class="ml-3">
+                <p class="text-base leading-6 font-medium text-white">
+                  Tom Cook
+                </p>
+                <p class="text-sm leading-5 font-medium text-indigo-300 group-hover:text-indigo-100 group-focus:underline transition ease-in-out duration-150">
+                  View profile
+                </p>
+              </div>
+            </div>
+          </button>
+        </div>
+      </div>
+      <div class="flex-shrink-0 w-14">
+      </div>
+    </div>
+  </div>
+
+  <!-- Desktop sidebar -->
+  <div class="hidden md:flex md:flex-shrink-0">
+    <div class="flex flex-col w-64">
+      <div class="flex flex-col h-0 flex-1 bg-indigo-600">
+        <div class="flex-1 flex flex-col pt-4 pb-4 overflow-y-auto">
+          <nav class="mt-5 flex-1 px-2 bg-indigo-600 space-y-1">
+            <button
+              (click)="navigate('/')"
+              class="w-full group flex items-center px-2 py-2 text-sm leading-5 font-medium text-indigo-300 rounded-md hover:text-white hover:bg-indigo-700 focus:outline-none transition ease-in-out duration-150"
+              [ngClass]="{'text-white bg-indigo-800': currentRoute === '/', 'text-indigo-300': currentRoute !== '/'}"
+            >
+              <svg class="mr-3 h-6 w-6 text-indigo-400 group-focus:text-indigo-300 transition ease-in-out duration-150" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+              </svg>
+              Home
+            </button>
+
+            <button
+              (click)="navigate('/products')"
+              class="w-full group flex items-center px-2 py-2 text-sm leading-5 font-medium rounded-md hover:text-white hover:bg-indigo-700 focus:outline-none transition ease-in-out duration-150"
+              [ngClass]="{'text-white bg-indigo-800': currentRoute === '/products', 'text-indigo-300': currentRoute !== '/products'}"
+            >
+              <svg class="mr-3 h-6 w-6 text-indigo-400 group-hover:text-indigo-300 group-focus:text-indigo-300 transition ease-in-out duration-150" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+              </svg>
+              Products
+            </button>
+          </nav>
+        </div>
+        <div class="flex-shrink-0 flex border-t border-indigo-700 p-4">
+          <button (click)="navigate('/profile')" class="flex-shrink-0 w-full group block focus:outline-none">
+            <div class="flex items-center">
+              <div>
+                <img class="inline-block h-9 w-9 rounded-full" src="https://randomuser.me/api/portraits/men/42.jpg" alt="">
+              </div>
+              <div class="text-left ml-3">
+                <p class="text-sm leading-5 font-medium text-white">
+                  Jean DUPONT
+                </p>
+                <p class="text-xs leading-4 font-medium text-indigo-300 group-hover:text-indigo-100 transition ease-in-out duration-150">
+                  View profile
+                </p>
+              </div>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="flex flex-col w-0 flex-1 overflow-hidden">
+    <div class="md:hidden pl-1 pt-1 sm:pl-3 sm:pt-3">
+      <button (click)="toggleSideMenu()" class="-ml-0.5 -mt-0.5 h-12 w-12 inline-flex items-center justify-center rounded-md text-gray-500 hover:text-gray-900 focus:outline-none focus:bg-gray-200 transition ease-in-out duration-150" aria-label="Open sidebar">
+        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+    <main class="flex-1 relative z-0 overflow-y-auto focus:outline-none" tabindex="0">
+      <div class="pt-2 pb-6 md:py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+          <h1 class="text-2xl font-semibold text-gray-900">{{pageTitle}}</h1>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
