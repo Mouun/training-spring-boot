@@ -61,7 +61,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8084/Produits/2",
+					"raw": "http://localhost:8084/Produits/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -69,7 +69,7 @@
 					"port": "8084",
 					"path": [
 						"Produits",
-						"2"
+						"1"
 					]
 				}
 			},
@@ -82,7 +82,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"nom\": \"iPhone 12 Pro Max\",\n    \"prix\": 0,\n    \"prixAchat\": 1000\n}",
+					"raw": "{\n    \"nom\": \"iPhone 12 Pro Max\",\n    \"prix\": 1200,\n    \"prixAchat\": 1000\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -187,6 +187,58 @@
 						"Test",
 						"Produits",
 						"400"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetNoteProduit",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8084/Produits/1/Note",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8084",
+					"path": [
+						"Produits",
+						"1",
+						"Note"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"client\",\r\n    \"password\": \"password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8084/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8084",
+					"path": [
+						"login"
 					]
 				}
 			},
