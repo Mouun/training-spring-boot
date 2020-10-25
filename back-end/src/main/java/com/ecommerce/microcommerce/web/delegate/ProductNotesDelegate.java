@@ -12,21 +12,27 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 @Service
 public class ProductNotesDelegate {
 
-  @Autowired RestTemplate restTemplate;
+    @Autowired
+    RestTemplate restTemplate;
 
-  @HystrixCommand(fallbackMethod = "callNotesFallback")
-  public String callNotesService(int idProduit) {
-    return restTemplate.exchange("http://localhost:8083/Notes/{idProduit}", HttpMethod.GET, null,
-        new ParameterizedTypeReference<String>() {
-        }, idProduit).getBody();
-  }
+    @HystrixCommand(fallbackMethod = "callNotesFallback")
+    public String callNotesService(int idProduit) {
+        return restTemplate.exchange(
+                "http://localhost:8083/Notes/{idProduit}",
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<String>() {
+                },
+                idProduit
+        ).getBody();
+    }
 
-  public String callNotesFallback(int idProduit) {
-    return "Une erreur est survenue lors de la récuparation de la note de ce produit.";
-  }
+    public String callNotesFallback(int idProduit) {
+        return "Une erreur est survenue lors de la récuparation de la note de ce produit.";
+    }
 
-  @Bean
-  public RestTemplate restTemplate() {
-    return new RestTemplate();
-  }
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
 }
