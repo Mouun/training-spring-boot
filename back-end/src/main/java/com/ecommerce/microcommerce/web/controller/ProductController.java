@@ -40,43 +40,29 @@ public class ProductController {
     public List<ProductWithMargin> calculerMargeProduit() {
         List<ProductWithMargin> productWithMarginResponse = new ArrayList<>();
         Iterable<Product> produits = productDao.findAll();
-        produits.forEach(product -> {
-            productWithMarginResponse.add(new ProductWithMargin(product));
-        });
+        produits.forEach(product -> productWithMarginResponse.add(new ProductWithMargin(product)));
         return productWithMarginResponse;
     }
 
     //Récupérer la liste des produits
     @GetMapping("/Produits")
     public MappingJacksonValue listeProduits() {
-
         Iterable<Product> produits = productDao.findAll();
-
         SimpleBeanPropertyFilter monFiltre = SimpleBeanPropertyFilter.serializeAllExcept("prixAchat");
-
         FilterProvider listDeNosFiltres = new SimpleFilterProvider().addFilter("monFiltreDynamique", monFiltre);
-
         MappingJacksonValue produitsFiltres = new MappingJacksonValue(produits);
-
         produitsFiltres.setFilters(listDeNosFiltres);
-
         return produitsFiltres;
     }
 
     //Récupérer la liste des produits
     @GetMapping("/Produits/Sort")
     public MappingJacksonValue trierProduitsParOrdreAlphabetique() {
-
         Iterable<Product> produits = productDao.findAllByOrderByNomAsc();
-
         SimpleBeanPropertyFilter monFiltre = SimpleBeanPropertyFilter.serializeAllExcept("prixAchat");
-
         FilterProvider listDeNosFiltres = new SimpleFilterProvider().addFilter("monFiltreDynamique", monFiltre);
-
         MappingJacksonValue produitsFiltres = new MappingJacksonValue(produits);
-
         produitsFiltres.setFilters(listDeNosFiltres);
-
         return produitsFiltres;
     }
 
@@ -87,16 +73,20 @@ public class ProductController {
         Product produit = productDao.findById(id);
 
         if (produit == null)
-            throw new ProduitIntrouvableException(
-                    "Le produit avec l'id " + id + " est INTROUVABLE. Écran Bleu si je pouvais.");
+            throw new ProduitIntrouvableException("Le produit avec l'id " + id + " est INTROUVABLE. Écran Bleu si je pouvais.");
 
         return produit;
     }
 
     // Récupérer une note pour un id de produit donné
     @ApiOperation(value = "Récupérer une note pour un id de produit donné !")
-    @GetMapping("/Produits/Notes/{id}")
-    public String getNotesProduit(@PathVariable int id) {
+    @GetMapping("/Produits/{id}/Note")
+    public String getNoteProduit(@PathVariable int id) {
+        Product produit = productDao.findById(id);
+
+        if (produit == null)
+            throw new ProduitIntrouvableException("Le produit avec l'id " + id + " est INTROUVABLE. Écran Bleu si je pouvais.");
+
         return productNotesDelegate.callNotesService(id);
     }
 
@@ -121,11 +111,21 @@ public class ProductController {
 
     @DeleteMapping("/Produits/{id}")
     public void supprimerProduit(@PathVariable int id) {
+        Product produit = productDao.findById(id);
+
+        if (produit == null)
+            throw new ProduitIntrouvableException("Le produit avec l'id " + id + " est INTROUVABLE. Écran Bleu si je pouvais.");
+
         productDao.delete(id);
     }
 
     @PutMapping("/Produits")
     public void updateProduit(@RequestBody Product product) {
+        Product produit = productDao.findById(product.getId());
+
+        if (produit == null)
+            throw new ProduitIntrouvableException("Le produit avec l'id " + product.getId() + " est INTROUVABLE. Écran Bleu si je pouvais.");
+
         productDao.save(product);
     }
 
