@@ -1,5 +1,4 @@
 <div>
-  <p class="mb-4">products works!</p>
   <div class="flex flex-col">
     <div class="-my-2 sm:-mx-6 lg:-mx-8">
       <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -16,42 +15,29 @@
               <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                 Prix d'Achat
               </th>
-              <th class="px-6 py-3 bg-gray-50"></th>
+              <th class="w-8 px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                Actions
+              </th>
             </tr>
             </thead>
             <tbody>
-            <!-- Odd row -->
-            <tr class="bg-white">
+            <tr
+              *ngFor="let product of products; let even = even; let odd = odd"
+              [ngClass]="{'bg-white': odd, 'bg-gray-50': even}"
+            >
               <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
-                Jane Cooper
+                {{product.nom}}
               </td>
               <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-                1200€
+                {{product.prix}}€
               </td>
               <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-                1000€
+                {{product.prixAchat}}€
               </td>
-              <td class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
-                <app-product-row-actions (whenEditClicked)="onEditClicked()" (whenDeleteClicked)="deleteSwal.fire()"></app-product-row-actions>
+              <td class="w-8 px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
+                <app-product-row-actions (whenEditClicked)="onEditClicked(product.id)" (whenDeleteClicked)="onDeleteCliked(product.id)"></app-product-row-actions>
               </td>
             </tr>
-
-            <!-- Even row -->
-            <tr class="bg-gray-50">
-              <!--   <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
-                   Cody Fisher
-                 </td>
-                 <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-                   500€
-                 </td>
-                 <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-                   350€
-                 </td>
-                 <td class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
-                   <app-product-row-actions></app-product-row-actions>
-                 </td>
-               </tr>-->
-            </tbody>
           </table>
         </div>
         <div class="flex justify-end">
@@ -70,6 +56,7 @@
     [customClass]="{ content: 'small-padding-modal' }"
     [showClass]="{ popup: 'modal-entrance', backdrop: 'modal-backdrop-entrance' }"
     [hideClass]="{ popup: 'modal-leave', backdrop: 'modal-backdrop-leave' }"
+    (afterClose)="closeAddOrEditSwal()"
     backdrop="rgba(0, 0, 0, 0.5)"
   >
     <div *swalPortal>
@@ -119,7 +106,7 @@
           text="Annuler"
           [secondary]="true"
           [fullWidth]="true"
-          (whenClicked)="addOrEditSwal.dismiss()"
+          (whenClicked)="closeAddOrEditSwal()"
         >
         </app-custom-button>
       </div>

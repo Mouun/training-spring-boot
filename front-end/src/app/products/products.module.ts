@@ -6,6 +6,7 @@ import { SharedModule } from '../shared/shared.module';
 import { ProductRowActionsComponent } from './components/product-row-actions/product-row-actions.component';
 import { ClickOutsideModule } from 'ng-click-outside';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { ProductResolver, ProductService } from '../shared/services/product.service';
 
 export const routes: Routes = [
   {
@@ -13,6 +14,9 @@ export const routes: Routes = [
     component: ProductsComponent,
     data: {
       title: 'Products'
+    },
+    resolve: {
+      products: ProductResolver
     }
   }
 ];
@@ -26,7 +30,8 @@ export const routes: Routes = [
     RouterModule.forChild(routes),
     SweetAlert2Module.forRoot()
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [ProductService, ProductResolver]
 })
 export class ProductsModule {
 }

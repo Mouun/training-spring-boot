@@ -9,6 +9,7 @@ import { ProfileComponent } from '../profile/profile.component';
 import { LoadingBarModule } from '@ngx-loading-bar/core';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
+import { ProductResolver, ProductService } from '../shared/services/product.service';
 
 export const routes: Routes = [
   {
@@ -16,6 +17,9 @@ export const routes: Routes = [
     component: HomeComponent,
     data: {
       title: 'Home'
+    },
+    resolve: {
+      products: ProductResolver
     }
   },
   {
@@ -47,7 +51,8 @@ export const routes: Routes = [
     LoadingBarRouterModule,
     LoadingBarHttpClientModule
   ],
-  bootstrap: [CoreComponent]
+  bootstrap: [CoreComponent],
+  providers: [ProductService, ProductResolver]
 })
 export class CoreModule {
 }

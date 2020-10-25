@@ -9,19 +9,13 @@ import com.ecommerce.microcommerce.web.exceptions.ProduitIntrouvableException;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
-
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -92,21 +86,11 @@ public class ProductController {
 
     // Ajouter un produit
     @PostMapping("/Produits")
-    public ResponseEntity<Void> ajouterProduit(@Valid @RequestBody Product product) throws ProduitGratuitException {
+    public Product ajouterProduit(@Valid @RequestBody Product product) throws ProduitGratuitException {
         if (product.getPrix() <= 0)
             throw new ProduitGratuitException("Le produit ne peut pas avoir un prix inférieur ou égal à 0.");
 
-        Product productAdded = productDao.save(product);
-
-        if (productAdded == null)
-            return ResponseEntity.noContent().build();
-
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(productAdded.getId())
-                .toUri();
-
-        return ResponseEntity.created(location).build();
+        return productDao.save(product);
     }
 
     @DeleteMapping("/Produits/{id}")

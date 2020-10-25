@@ -200,23 +200,11 @@ public class MicrocommerceApplicationTests {
         String requestJson = ow.writeValueAsString(newProduct);
 
         when(productDao.save(newProduct)).thenReturn(newProduct);
-        when(productDao.findById(4)).thenReturn(newProduct);
 
         this.mockMvc.perform(post("/Produits").contentType(APPLICATION_JSON_UTF8).content(requestJson))
                 .andDo(print())
-                .andExpect(status().isNoContent())
-                .andReturn();
-
-        this.mockMvc.perform(get("/Produits/{id}", 4))
-                .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(newProduct.getId()))
-                .andExpect(jsonPath("$.nom").value(newProduct.getNom()))
-                .andExpect(jsonPath("$.prix").value(newProduct.getPrix()))
-                .andExpect(jsonPath("$.prixAchat").value(newProduct.getPrixAchat()))
                 .andReturn();
-
-        verify(productDao, times(1)).findById(4);
     }
 
     @Test
