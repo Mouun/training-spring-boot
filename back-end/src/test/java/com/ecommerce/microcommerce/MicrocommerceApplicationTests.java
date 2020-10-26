@@ -3,6 +3,8 @@ package com.ecommerce.microcommerce;
 import com.ecommerce.microcommerce.dao.ProductDao;
 import com.ecommerce.microcommerce.model.Product;
 import com.ecommerce.microcommerce.responses.ProductWithMargin;
+import com.ecommerce.microcommerce.security.JWTUserDetailsService;
+import com.ecommerce.microcommerce.security.JwtTokenUtil;
 import com.ecommerce.microcommerce.web.controller.ProductController;
 import com.ecommerce.microcommerce.web.delegate.ProductNotesDelegate;
 import com.ecommerce.microcommerce.web.exceptions.ProduitGratuitException;
@@ -19,6 +21,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -53,6 +56,12 @@ public class MicrocommerceApplicationTests {
     private ProductDao productDao;
 
     @MockBean
+    private JWTUserDetailsService jwtUserDetailsService;
+
+    @MockBean
+    private JwtTokenUtil jwtTokenUtil;
+
+    @MockBean
     private ProductNotesDelegate productNotesDelegate;
 
     @Mock
@@ -68,6 +77,7 @@ public class MicrocommerceApplicationTests {
         products.add(new Product(3, "Table de Ping Pong", 750, 400));
     }
 
+    @WithMockUser(value = "spring")
     @Test
     public void calculerMargeProduitSouldReturnAllProductsWithMargin() throws Exception {
         List<ProductWithMargin> productsWithMargin = new ArrayList<>(Arrays.asList(
@@ -92,6 +102,7 @@ public class MicrocommerceApplicationTests {
         verify(productDao, times(1)).findAll();
     }
 
+    @WithMockUser(value = "spring")
     @Test
     public void listeProduitsShouldReturnAllProducts() throws Exception {
         when(productDao.findAll()).thenReturn(products);
@@ -109,6 +120,7 @@ public class MicrocommerceApplicationTests {
         verify(productDao, times(1)).findAll();
     }
 
+    @WithMockUser(value = "spring")
     @Test
     public void trierProduitsParOrdreAlphabetiqueShouldReturnAllProductsSortedByNameAlphabetically() throws Exception {
         List<Product> sortedList = products
@@ -131,6 +143,7 @@ public class MicrocommerceApplicationTests {
         verify(productDao, times(1)).findAllByOrderByNomAsc();
     }
 
+    @WithMockUser(value = "spring")
     @Test
     public void afficherUnProduitShouldReturnTheProductCorrespondingToTheGivenId() throws Exception {
         when(productDao.findById(2)).thenReturn(products.get(1));
@@ -147,6 +160,7 @@ public class MicrocommerceApplicationTests {
         verify(productDao, times(1)).findById(2);
     }
 
+    @WithMockUser(value = "spring")
     @Test
     public void afficherUnProduitShouldThrowProduitIntrouvableExceptionWhenAWrongIdIsGiven() throws Exception {
         this.mockMvc.perform(get("/Produits/{id}", 11))
@@ -159,6 +173,7 @@ public class MicrocommerceApplicationTests {
         verify(productDao, times(1)).findById(11);
     }
 
+    @WithMockUser(value = "spring")
     @Test
     public void getNoteProduitShouldCorrectlyReturnANote() throws Exception {
         String expectedNote = "Reconditionné par Apple, batterie remise à neuf.";
@@ -177,6 +192,7 @@ public class MicrocommerceApplicationTests {
         verify(productNotesDelegate, times(1)).callNotesService(1);
     }
 
+    @WithMockUser(value = "spring")
     @Test
     public void getNoteProduitShouldThrowProduitIntrouvableExceptionWhenAnUnknownProductIdIsGiven() throws Exception {
         this.mockMvc.perform(get("/Produits/{id}/Note", 11))
@@ -190,6 +206,7 @@ public class MicrocommerceApplicationTests {
         verify(productNotesDelegate, times(0)).callNotesService(11);
     }
 
+    @WithMockUser(value = "spring")
     @Test
     public void ajouterProduitShouldCorrectlyAddANewProduct() throws Exception {
         Product newProduct = new Product(4, "iPhone 12 Pro", 1200, 1050);
@@ -207,6 +224,7 @@ public class MicrocommerceApplicationTests {
                 .andReturn();
     }
 
+    @WithMockUser(value = "spring")
     @Test
     public void ajouterProduitShouldThrowProduitGratuitExceptionWhenAPriceOfZeroIsGiven() throws Exception {
         Product newProduct = new Product(4, "iPhone 12 Pro", 0, 1050);
@@ -227,6 +245,7 @@ public class MicrocommerceApplicationTests {
         verify(productDao, times(0)).findById(4);
     }
 
+    @WithMockUser(value = "spring")
     @Test
     public void supprimerProduitShouldCorrectlyDeleteAProduct() throws Exception {
         when(productDao.findById(1)).thenReturn(products.get(0));
@@ -239,6 +258,7 @@ public class MicrocommerceApplicationTests {
         verify(productDao, times(1)).delete(1);
     }
 
+    @WithMockUser(value = "spring")
     @Test
     public void supprimerProduitShouldThrowProduitIntrouvableExceptionWhenAnUnknownProductIdIsGiven() throws Exception {
         this.mockMvc.perform(delete("/Produits/{id}", 11))
@@ -251,6 +271,7 @@ public class MicrocommerceApplicationTests {
         verify(productDao, times(0)).delete(11);
     }
 
+    @WithMockUser(value = "spring")
     @Test
     public void updateProduitShouldCorrectlyUpdateAProduct() throws Exception {
         Product updatedProduct = new Product(1, "Ordinateur portable", 300, 100);
@@ -280,6 +301,7 @@ public class MicrocommerceApplicationTests {
                 .andReturn();
     }
 
+    @WithMockUser(value = "spring")
     @Test
     public void updateProduitShouldThrowProduitIntrouvableExceptionWhenAnUnknownProductIdIsGiven() throws Exception {
         Product updatedProduct = new Product(11, "Ordinateur portable", 300, 100);
@@ -300,6 +322,7 @@ public class MicrocommerceApplicationTests {
         verify(productDao, times(0)).findById(1);
     }
 
+    @WithMockUser(value = "spring")
     @Test
     public void testeDeRequetesShouldCorrectlyReturnProductsUnderPrice400() throws Exception {
         when(productDao.chercherUnProduitCher(400)).thenReturn(Arrays.asList(products.get(1), products.get(2)));
