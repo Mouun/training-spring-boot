@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  startPointApiUrl: 'http://localhost:8084'
 };

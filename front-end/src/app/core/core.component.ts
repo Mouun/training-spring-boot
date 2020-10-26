@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivationStart, Router } from '@angular/router';
 import { animate, animateChild, query, style, transition, trigger } from '@angular/animations';
+import { TokenService } from '../shared/services/token.service';
 
 @Component({
   selector: 'app-core',
@@ -58,7 +59,8 @@ export class CoreComponent implements OnInit {
   public currentRoute: string;
 
   constructor(
-    private router: Router
+    private router: Router,
+    public tokenService: TokenService
   ) {
   }
 
@@ -79,5 +81,10 @@ export class CoreComponent implements OnInit {
 
   public toggleSideMenu(): void {
     this.sideMenuOpened = !this.sideMenuOpened;
+  }
+
+  public logOut(): void {
+    this.tokenService.removeToken();
+    this.router.navigateByUrl('/login');
   }
 }
