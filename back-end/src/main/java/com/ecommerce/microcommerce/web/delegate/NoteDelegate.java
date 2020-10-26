@@ -10,7 +10,7 @@ import org.springframework.web.client.RestTemplate;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
 @Service
-public class ProductNotesDelegate {
+public class NoteDelegate {
 
     @Autowired
     RestTemplate restTemplate;

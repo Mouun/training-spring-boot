@@ -3,7 +3,7 @@ package com.ecommerce.microcommerce.web.controller;
 import com.ecommerce.microcommerce.dao.ProductDao;
 import com.ecommerce.microcommerce.model.Product;
 import com.ecommerce.microcommerce.responses.ProductWithMargin;
-import com.ecommerce.microcommerce.web.delegate.ProductNotesDelegate;
+import com.ecommerce.microcommerce.web.delegate.NoteDelegate;
 import com.ecommerce.microcommerce.web.exceptions.ProduitGratuitException;
 import com.ecommerce.microcommerce.web.exceptions.ProduitIntrouvableException;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
@@ -27,7 +27,7 @@ public class ProductController {
     private ProductDao productDao;
 
     @Autowired
-    private ProductNotesDelegate productNotesDelegate;
+    private NoteDelegate noteDelegate;
 
     @ApiOperation(value = "Calculer les marges pour tous les produits")
     @GetMapping("AdminProduits")
@@ -81,7 +81,7 @@ public class ProductController {
         if (produit == null)
             throw new ProduitIntrouvableException("Le produit avec l'id " + id + " est INTROUVABLE. Écran Bleu si je pouvais.");
 
-        return productNotesDelegate.callNotesService(id);
+        return noteDelegate.callNotesService(id);
     }
 
     // Ajouter un produit
